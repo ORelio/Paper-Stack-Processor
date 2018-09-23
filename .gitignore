@@ -1,0 +1,5 @@
+*.suo
+*.user
+Release
+PostProcessMagazineScan/bin
+PostProcessMagazineScan/obj
