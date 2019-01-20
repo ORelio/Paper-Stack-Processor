@@ -8,7 +8,7 @@ namespace PostProcessMagazineScan
 {
     class Program
     {
-        public const string Version = "1.0";
+        public const string Version = "1.1";
 
         private static void Error(string error)
         {
@@ -33,6 +33,7 @@ namespace PostProcessMagazineScan
             public bool DoublePaging = false;
             public bool PagingRightToLeft = false;
             public bool Reorder = true;
+            public bool Backflip = false;
         }
 
         private static ProcessSettings ParseArgs(string[] args)
@@ -150,6 +151,22 @@ namespace PostProcessMagazineScan
                                         break;
                                 }
                                 break;
+                            case "backflip":
+                                switch (argValue.ToLower())
+                                {
+                                    case "0":
+                                    case "false":
+                                        settings.Backflip = false;
+                                        break;
+                                    case "1":
+                                    case "true":
+                                        settings.Backflip = true;
+                                        break;
+                                    default:
+                                        Error("Unknown boolean value for --backflip, expecting true/false");
+                                        break;
+                                }
+                                break;
                             default:
                                 Error("Unknown argument: --" + argName);
                                 break;
@@ -202,11 +219,15 @@ namespace PostProcessMagazineScan
 
                 for (int i = 0; i < inputImages.Length; i++)
                 {
+                    bool upsideDownImg = settings.Reorder && settings.Backflip && i >= inputImages.Length / 2;
                     string imgFile = inputImages[i];
                     Console.WriteLine("Processing: " + Path.GetFileName(imgFile));
                     Image loadImage = Image.FromFile(imgFile);
                     Bitmap image = new Bitmap(loadImage);
                     loadImage.Dispose();
+
+                    if (upsideDownImg)
+                        image.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
                     if (settings.Rotate != RotateFlipType.RotateNoneFlipNone)
                         image.RotateFlip(settings.Rotate);
@@ -219,7 +240,7 @@ namespace PostProcessMagazineScan
                             Bitmap image2 = image.Clone(
                                 new Rectangle(
                                     new Point(
-                                        (int)settings.CropLeft,
+                                        upsideDownImg ? (int)settings.CropRight : (int)settings.CropLeft,
                                         (int)settings.CropTop
                                     ),
                                     new Size(
@@ -385,6 +406,7 @@ namespace PostProcessMagazineScan
                         " --output-ext       png            Output image file type, supports jpg, jpeg, png, bmp",
                         " --output-basename  IMG001         Base naming of output files, number must be placed last",
                         " --reorder          true           Reorder pages, assuming input is all front then all back",
+                        " --backflip         false          Handle second half of the input stack placed upside down",
                         ""
                     })
                     {

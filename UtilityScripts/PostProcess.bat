@@ -10,6 +10,7 @@ set INEXT=jpg
 
 set OUTDIR=processed
 set REORDER=true
+set BACKFLIP=false
 set OUTEXT=png
 set BASENAME=IMG0001
 
@@ -29,6 +30,7 @@ PostProcess ^
  --input-ext "%INEXT%" ^
  --output-dir "%OUTDIR%" ^
  --reorder "%REORDER%" ^
+ --backflip "%BACKFLIP%" ^
  --output-ext "%OUTEXT%" ^
  --output-basename "%BASENAME%" ^
  --rotate "%ROTATE%" ^
