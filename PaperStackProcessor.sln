@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostProcessMagazineScan", "PostProcessMagazineScan\PostProcessMagazineScan.csproj", "{A91EB731-B4E3-4C82-9A07-04E0B46FE0A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostProcess", "PostProcess\PostProcess.csproj", "{A91EB731-B4E3-4C82-9A07-04E0B46FE0A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
