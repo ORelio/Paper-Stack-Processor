@@ -1,5 +1,6 @@
 *.suo
 *.user
+Other
 Release
 PostProcess/bin
 PostProcess/obj
